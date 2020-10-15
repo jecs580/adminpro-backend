@@ -9,6 +9,10 @@ const {dbConecction} = require('./db/config')
 const app = express();
 
 app.use(cors());
+
+// Lectura y parseo del body
+app.use(express.json());
+
 // Base de datos
 dbConecction();
 
