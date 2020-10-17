@@ -39,10 +39,50 @@ const createUser = async (req, res=response) => {
       msg:'Error inesperado... revisar logs'
     })
   }
-  
 };
+const updateUser = async(req,res=response)=>{
+  const uid = req.params['id'];
+  try {
+    const usuariodb = await Usuario.findById(uid);
+    if(!usuariodb){
+      return res.status(404).json({
+        ok:false,
+        msg:'No existe un usuario por ese id'
+      });
+    }
+    const campos = req.body;
+    if(usuariodb.email === req.body.email){
+      delete campos.email;
+    }else{
+      const existEmail = await Usuario.findOne({email:req.body.email});
+      if(existEmail){
+        return res.status(400).json({
+          ok:false,
+          msg:'Ya existe un usuario con ese email'
+        });
+      }
+    }
+    delete campos.password; // Borramos el password del objeto
+    delete campos.google;
+
+    const updatedUser = await Usuario.findByIdAndUpdate(uid,campos,{ new:true });
+
+    res.json({
+      ok:true,
+      usuario:updatedUser
+    })  
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok:false,
+      msg:'Error inesperado'
+    })
+  }
+
+}
 
 module.exports = {
     getUser,
-    createUser
+    createUser,
+    updateUser
 }
