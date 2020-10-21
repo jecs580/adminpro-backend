@@ -5,7 +5,8 @@ const dbConecction =  async()=>{
         await mongoose.connect('mongodb://localhost:27017/adminprodb', {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        useFindAndModify: false 
+        useFindAndModify: false,
+        useCreateIndex: true
     });
     console.log('DB Online');
     } catch (error) {
