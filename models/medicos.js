@@ -11,10 +11,12 @@ const MedicoSchema = Schema({
   usuario: {
     type: Schema.Types.ObjectId,
     ref: "User",
+    required:true
   },
   hospital: {
     type: Schema.Types.ObjectId,
     ref: "Hospital",
+    required:true
   },
 });
 
