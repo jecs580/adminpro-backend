@@ -24,7 +24,36 @@ const getTodo = async(req=request, res=response)=>{
         })
     }
 }
-
+const getDocumentosColeccion = async(req=request, res=response)=>{
+    const coleccion =  req.params['coleccion'];
+    const busqueda = req.params['busqueda'];
+    const regex = new RegExp(busqueda,'i');
+    let data=[];
+    switch (coleccion) {
+        case 'medicos':
+            data = await Medico.find({name:regex})
+            .populate('usuario','name img')
+            .populate('hospital','name img');
+            break;
+        case 'hospitales':
+            data = await Hospital.find({name:regex})
+            .populate('usuario','name img');
+            break;
+        case 'usuarios':
+            data = await Usuario.find({name:regex});
+        break;
+        default:
+            return res.status(400).json({
+                ok:false,
+                msg:'La colección tiene que ser usurios|medicos|hospitales'
+            });
+        }
+        res.json({
+            ok:true,
+            resultados:data
+        });
+}
 module.exports={
-    getTodo
+    getTodo,
+    getDocumentosColeccion
 }
