@@ -1,16 +1,16 @@
 /*
-    Ruta: api/todo/:busqueda
+    Ruta: api/upload/
 */
 const {Router}  = require('express');
+const expressfileUpload = require('express-fileupload');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
-const {getTodo, getDocumentosColeccion} = require('../controllers/busquedas');
+const {fileUpload} = require('../controllers/uploads');
 const router = Router();
-
-router.get('/:busqueda',validarJWT, getTodo);
-router.get('/collection/:coleccion/:busqueda',validarJWT, getDocumentosColeccion);
+router.use(expressfileUpload());
+router.put('/:tipo/:id',validarJWT, fileUpload);
 
 
 module.exports = router;

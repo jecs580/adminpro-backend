@@ -21,6 +21,7 @@ app.use('/api/login',require('./routes/auth'));
 app.use('/api/hospitals',require('./routes/hospitals'));
 app.use('/api/medicos',require('./routes/medicos'));
 app.use('/api/todo',require('./routes/busquedas'));
+app.use('/api/uploads',require('./routes/uploads'));
 
 app.listen(process.env.PORT,()=>{
     console.log(`Servidor escuchando en el puerto: ${process.env.PORT}`);
