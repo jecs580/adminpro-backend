@@ -7,7 +7,7 @@ const getUser = async (req=request, res) => {
 
   const [usuarios,total] = await Promise.all(
     [
-      Usuario.find({}, 'name email role google')
+      Usuario.find({}, 'name email role google img')
       .skip(from) // Especifica dede que punto empezar
       .limit(5), // Liminte de objetos devueltos
       Usuario.countDocuments()

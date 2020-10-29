@@ -1,5 +1,6 @@
 const { response, request } = require("express");
 const { v4: uuidv4 } = require("uuid");
+const { actulizarImagen } = require("../helpers/actualizar-image");
 
 const fileUpload = async (req = request, res = response) => {
   const tipo = req.params.tipo;
@@ -38,7 +39,6 @@ const fileUpload = async (req = request, res = response) => {
   const path = `./uploads/${tipo}/${nombreArchivo}`;
 
   // Mover la imagen
-
   file.mv(path, function (err) {
     if (err) {
       console.log(err);
@@ -47,6 +47,9 @@ const fileUpload = async (req = request, res = response) => {
         msg: "Error al mover la imagen",
       });
     }
+
+    // Actualizar base de datos
+    actulizarImagen(tipo, id, nombreArchivo);
     res.status(200).json({
       ok: true,
       msg: "Archivo subido",
