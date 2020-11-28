@@ -72,7 +72,14 @@ const updateUser = async(req,res=response)=>{
         });
       }
     }
-    campos.email = email;
+    if (!usuariodb.google) {
+      campos.email = email;
+    }else if(usuariodb.email !==email){
+      return res.status(400).json({
+        ok:false,
+        msg:'Usuarios de google no pueden cambiar su correo'
+      });
+    }
     // delete campos.password; // Borramos el password del objeto
     // delete campos.google;
 
