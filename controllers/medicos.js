@@ -1,4 +1,4 @@
-const { response } = require("express")
+const { response, request } = require("express")
 const Medico = require('../models/medicos');
 const getMedicos= async(req,res=response)=>{
     const medicos = await Medico.find()
@@ -8,6 +8,25 @@ const getMedicos= async(req,res=response)=>{
         ok:true,
         medicos
     })
+}
+const getMedicoById= async(req,res=response)=>{
+    const id= req.params['id'];
+    try {
+        const medico = await Medico.findById(id)
+        .populate('usuario', 'name img')
+        .populate('hospital', 'name img');
+        res.json({
+            ok:true,
+            medico
+        })
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok:false,
+            msg:'Error inesperado'
+        })
+    }
+ 
 }
 const createMedico= async(req,res=response)=>{
     const userid = req.uid;
@@ -87,5 +106,6 @@ module.exports={
     getMedicos,
     createMedico,
     updateMedico,
-    deleteMedico
+    deleteMedico,
+    getMedicoById
 }
