@@ -2,12 +2,11 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const dbConecction =  async()=>{
     try {
-        await mongoose.connect('mongodb://localhost:27017/adminprodb', {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useFindAndModify: false,
-        useCreateIndex: true
-    });
+        await mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@clusterprueba1.drimc.mongodb.net/adminprodb`, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex: true
+        });
     console.log('DB Online');
     } catch (error) {
        console.log(error);
